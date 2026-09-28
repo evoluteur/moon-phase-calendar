@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-063933E3C2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-063933E3C2");
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moon Phase Calendar</title>
+    <meta
+      name="description"
+      content="Free moon phase calendar: today's moon, month and year calendars of moon phases with exact times in your time zone, moon signs, full moon names, supermoons and blue moons, and what each phase means."
+    />
+    <meta
+      name="keywords"
+      content="moon phase calendar, moon phases, moon calendar, lunar calendar, full moon, new moon, moon sign, full moon names, harvest moon, supermoon, blue moon, moon today, esoterica"
+    />
+    <meta name="author" content="Olivier Giulieri" />
+    <meta property="og:title" content="Moon Phase Calendar" />
+    <meta
+      property="og:description"
+      content="Today's moon, month and year calendars of moon phases, moon signs, full moon names and what each phase means."
+    />
+    <meta
+      property="og:url"
+      content="https://evoluteur.github.io/moon-phase-calendar/"
+    />
+    <meta
+      property="og:image"
+      content="https://evoluteur.github.io/moon-phase-calendar/moon-phase-calendar.png"
+    />
+    <link rel="canonical" href="https://evoluteur.github.io/moon-phase-calendar/" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <meta name="theme-color" content="#1a212d" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Overpass"
+    />
+    <link id="omg-core-css" rel="stylesheet" href="css/core.css" />
+    <script>
+      // Themes (dark, light, evol-blue) are copies of omg-themes; set OMG_THEMES_BASE to link the hosted ones instead.
+      window.OMG_THEMES_BASE = ""; // or "https://evoluteur.github.io/omg-themes/" to link the hosted themes
+      window.OMG_DEFAULT_THEME = "dark";
+      (function () {
+        var t = window.OMG_DEFAULT_THEME;
+        try {
+          t = localStorage.getItem("omg-theme") || t;
+        } catch (e) {}
+        if (t !== "dark" && t !== "light" && t !== "evol-blue")
+          t = window.OMG_DEFAULT_THEME;
+        document.documentElement.setAttribute("data-theme", t);
+        // written here (not in the markup) so the saved theme loads before first paint
+        document.write(
+          '<link id="omg-theme-css" rel="stylesheet" href="' +
+            window.OMG_THEMES_BASE +
+            "css/themes/" +
+            t +
+            "/" +
+            t +
+            '.css" />',
+        );
+      })();
+    </script>
+    <link id="omg-density-css" rel="stylesheet" href="css/densities.css" />
+    <link rel="stylesheet" href="css/moon.css" />
+
+    <script src="js/omg.js"></script>
+    <script src="js/astro.js"></script>
+    <script src="js/moon-data.js"></script>
+    <script src="js/moon.js"></script>
+  </head>
+
+  <body
+    onload="
+      setupPage('home');
+      initMoon();
+    "
+    id="omg-body"
+  >
+    <div id="omg-header">
+      <h1>Moon Phase Calendar</h1>
+      <div id="omg-theme-picker"></div>
+      <a
+        id="omg-github"
+        href="https://github.com/evoluteur/moon-phase-calendar"
+        target="_blank"
+        rel="noopener"
+        title="Moon Phase Calendar on GitHub"
+        aria-label="Moon Phase Calendar on GitHub"
+        ><svg viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+          /></svg
+      ></a>
+    </div>
+
+    <div class="content">
+      <p class="tagline">
+        The phase of the Moon today, and month and year calendars of every
+        phase, with exact times in your time zone, the Moon's zodiac sign, the
+        names of the full moons, and what each phase means.
+      </p>
+
+      <section id="today" class="today" aria-label="The Moon now"></section>
+
+      <section class="cal" aria-label="Moon calendar">
+        <div class="toolbar">
+          <div class="nav">
+            <button id="prev" class="icon-btn" aria-label="Previous">&#8249;</button>
+            <h2 id="cal-title" aria-live="polite"></h2>
+            <button id="next" class="icon-btn" aria-label="Next">&#8250;</button>
+            <button id="go-today" class="pill">Today</button>
+          </div>
+          <div class="switches">
+            <div class="seg" role="group" aria-label="View">
+              <button id="view-month">Month</button>
+              <button id="view-year">Year</button>
+            </div>
+            <div class="seg" role="group" aria-label="Hemisphere">
+              <button id="hemi-north" title="Moon as seen from the Northern Hemisphere">North</button>
+              <button id="hemi-south" title="Moon as seen from the Southern Hemisphere (upside down)">South</button>
+            </div>
+          </div>
+        </div>
+        <div id="calendar"></div>
+        <div id="events"></div>
+      </section>
+
+      <section class="about" id="about">
+        <h2>About the phases of the Moon</h2>
+        <p>
+          The Moon takes about 29.5 days (a synodic month) to go from one new
+          moon to the next. It does not make its own light: we see the half lit
+          by the Sun, and as the Moon circles the Earth we see more or less of
+          that half. At the <b>new moon</b> it sits between the Earth and the
+          Sun and its lit side faces away from us. At the <b>full moon</b> the
+          Earth sits between the two and we see the whole lit face. The
+          <b>quarters</b> are the halfway points, when exactly half of the disk
+          is lit.
+        </p>
+        <p>
+          The four principal phases are exact moments, and the calendar gives
+          their time. The four in between (crescents and gibbous moons) last
+          about a week each. The Moon <b>waxes</b> (grows) from new to full,
+          and <b>wanes</b> (shrinks) from full to new. From the Northern
+          Hemisphere, the waxing Moon is lit on the right; from the Southern
+          Hemisphere it looks upside down, lit on the left. Use the
+          <b>North / South</b> switch to see it your way.
+        </p>
+        <div id="about-phases" class="about-phases"></div>
+
+        <h2>The Moon in the signs</h2>
+        <p>
+          The Moon moves through the whole zodiac in about 27.3 days, spending
+          two to three days in each sign. Astrologers read its sign as the
+          emotional weather of those days. The calendar shows the sign for each
+          day and the time the Moon moves into the next one (tropical zodiac,
+          as in Western astrology).
+        </p>
+        <div id="about-signs" class="about-signs"></div>
+
+        <h2>Full moon names</h2>
+        <p>
+          Each full moon has a traditional name, from the North American
+          almanac tradition, which drew on Native American, Colonial American
+          and European names for the months. The names are for the Northern
+          Hemisphere seasons.
+        </p>
+        <ul id="about-names" class="about-names"></ul>
+        <p>
+          <b>Blue Moon</b>: the second full moon in a calendar month.
+          <b>Black Moon</b>: the second new moon in a calendar month.
+          <b>Supermoon</b>: a full moon closer than 361,000 km, when the Moon
+          looks biggest and brightest. <b>Micromoon</b>: a full moon farther
+          than 405,000 km.
+        </p>
+
+        <h2>How it is calculated</h2>
+        <p>
+          Everything is computed in your browser, for any year from 1900 to
+          2100. The positions of the Sun and the Moon come from the algorithms
+          of Jean Meeus' <i>Astronomical Algorithms</i>, and the exact times of
+          the phases and sign changes are solved from them. They agree with
+          professional ephemerides to about a minute. Times are shown in your
+          device's time zone.
+        </p>
+      </section>
+
+      <div class="footer">
+        <p>
+          Moon Phase Calendar is open source on
+          <a href="https://github.com/evoluteur/moon-phase-calendar">GitHub</a>
+          with an MIT license.
+        </p>
+        <p>
+          Had fun browsing the app?
+          <a href="https://github.com/sponsors/evoluteur"
+            >Buy me a coffee by becoming a sponsor</a
+          >.
+        </p>
+        <p>
+          You may also like
+          <a href="https://evoluteur.github.io/music-of-the-spheres/"
+            >Music of the Spheres</a
+          >,
+          <a href="https://evoluteur.github.io/healing-frequencies/"
+            >Healing Frequencies</a
+          >
+          and
+          <a href="https://evoluteur.github.io/mandala-maker/"
+            >Mandala Maker</a
+          >. For more mystic arts as small web apps, see
+          <a href="https://evoluteur.github.io/esoterica.html">Esoterica</a>.
+        </p>
+        <p class="copyright">
+          &#169; 2026
+          <a href="https://evoluteur.github.io/">Olivier Giulieri</a>
+        </p>
+      </div>
+    </div>
+
+    <div id="detail-overlay" class="detail-overlay"></div>
+    <aside
+      id="day-detail"
+      class="card-detail pane"
+      aria-hidden="true"
+      aria-label="Day details"
+    ></aside>
+  </body>
+</html>

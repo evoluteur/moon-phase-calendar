@@ -1,0 +1,31 @@
+{
+  "name": "moon-phase-calendar",
+  "version": "1.0.0",
+  "description": "Free moon phase calendar: today's moon, month and year calendars of moon phases with exact times in your time zone, moon signs, full moon names, supermoons and blue moons, and what each phase means.",
+  "repository": "github:evoluteur/moon-phase-calendar",
+  "homepage": "https://evoluteur.github.io/moon-phase-calendar/",
+  "copyright": "(c) 2026 Olivier Giulieri",
+  "author": "Olivier Giulieri (https://evoluteur.github.io/)",
+  "license": "MIT",
+  "keywords": [
+    "moon",
+    "moon-phase",
+    "moon-phases",
+    "moon-calendar",
+    "lunar-calendar",
+    "full-moon",
+    "new-moon",
+    "moon-sign",
+    "astrology",
+    "astronomy",
+    "meeus",
+    "supermoon",
+    "blue-moon",
+    "harvest-moon",
+    "esoteric",
+    "esoterica",
+    "mystic",
+    "svg",
+    "javascript"
+  ]
+}
