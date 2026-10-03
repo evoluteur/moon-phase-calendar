@@ -91,7 +91,6 @@ html[data-theme="evol-blue"] #omg-github svg {
 .tagline {
   opacity: 0.85;
   margin: 0 0 24px;
-  max-width: 680px;
 }
 .muted {
   opacity: 0.65;
