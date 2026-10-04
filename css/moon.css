@@ -58,12 +58,23 @@ html[data-theme="evol-blue"] {
 #omg-theme-picker > a.selected {
   opacity: 1;
 }
-#omg-github {
+/* Theme toggle + GitHub link as one row, anchored top right (core.css
+   normally anchors #omg-theme-picker there directly; "static" here lets it
+   sit inline instead, with the gap coming from the flex row). */
+#omg-header-tools {
   position: absolute;
-  top: 34px;
-  right: 4px;
-  margin-top: 12px;
+  top: 5px;
+  right: 5px;
   z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#omg-header-tools #omg-theme-picker {
+  position: static;
+}
+
+#omg-github {
   display: inline-flex;
   align-items: center;
   justify-content: center;
