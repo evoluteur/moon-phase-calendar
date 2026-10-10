@@ -76,6 +76,7 @@
 
     <script src="js/omg.js"></script>
     <script src="js/astro.js"></script>
+    <script src="js/eclipses.js"></script>
     <script src="js/moon-data.js"></script>
     <script src="js/moon.js"></script>
   </head>
@@ -186,13 +187,24 @@
           looks biggest and brightest. <b>Micromoon</b>: a full moon farther
           than 405,000 km.
         </p>
+        <p>
+          <b>Lunar eclipses</b> happen at full moon, when the Moon passes
+          through the Earth's shadow: <b>total</b> when the whole Moon is in
+          the dark shadow and turns red, <b>partial</b> when only part of it
+          is, and <b>penumbral</b> when it only crosses the faint outer shadow.
+          They are marked in the calendars, with the time of maximum and how
+          long they last. For solar eclipses and where each eclipse is visible,
+          see the
+          <a href="https://evoluteur.github.io/eclipse-calendar/">Eclipse Calendar</a>.
+        </p>
 
         <h2>How it is calculated</h2>
         <p>
           Everything is computed in your browser, for any year from 1900 to
           2100. The positions of the Sun and the Moon come from the algorithms
           of Jean Meeus' <i>Astronomical Algorithms</i>, and the exact times of
-          the phases and sign changes are solved from them. They agree with
+          the phases and sign changes are solved from them. Lunar eclipses use
+          Meeus' chapter 54, as in the Eclipse Calendar. They agree with
           professional ephemerides to about a minute. Times are shown in your
           device's time zone.
         </p>

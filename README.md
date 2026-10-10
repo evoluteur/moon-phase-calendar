@@ -26,6 +26,7 @@ Links are shareable: `#2026-10` opens October 2026, `#2026` the whole year. The 
 - The Moon in each of the **12 signs** of the tropical zodiac, with its element and mood.
 - The traditional **full moon names** of the North American almanac tradition (Wolf, Snow, Worm, Pink, Flower, Strawberry, Buck, Sturgeon, Corn, Hunter's, Beaver and Cold), with the **Harvest Moon** set on the full moon closest to the September equinox and the **Hunter's Moon** on the next one.
 - Tags for **Supermoons** (full moon closer than 361,000 km), **Micromoons** (farther than 405,000 km), **Blue Moons** (second full moon in a calendar month) and **Black Moons** (second new moon in a calendar month).
+- **Lunar eclipses** (total, partial and penumbral) at the full moons where they happen, with the time of maximum, magnitude and durations (Meeus, chapter 54, as in the [Eclipse Calendar](https://evoluteur.github.io/eclipse-calendar/)).
 
 The meanings were written for this app, in the spirit of the lunar and astrological traditions.
 

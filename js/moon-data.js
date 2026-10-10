@@ -200,3 +200,17 @@ const BLUE_MOON = "The second full moon in a calendar month. It happens about ev
 const SUPERMOON = "A full moon near perigee, the point of the Moon's orbit closest to the Earth (under 361,000 km here). It looks up to 14% bigger and 30% brighter than a full moon at apogee.";
 const MICROMOON = "A full moon near apogee, the point of the Moon's orbit farthest from the Earth (over 405,000 km here). It looks a little smaller and dimmer than usual.";
 const BLACK_MOON = "The second new moon in a calendar month.";
+const LUNAR_ECLIPSES = {
+  total: {
+    label: "Total lunar eclipse",
+    text: "The whole Moon passes into the Earth's shadow and turns red, lit only by the sunsets and sunrises around the Earth: a Blood Moon.",
+  },
+  partial: {
+    label: "Partial lunar eclipse",
+    text: "Part of the Moon passes into the Earth's dark shadow and looks bitten.",
+  },
+  penumbral: {
+    label: "Penumbral lunar eclipse",
+    text: "The Moon only crosses the Earth's faint outer shadow: a subtle dimming, easy to miss.",
+  },
+};

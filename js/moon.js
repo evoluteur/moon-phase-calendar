@@ -129,6 +129,11 @@ const yearData = (y) => {
       tags.push({ id: "super", label: "Supermoon", text: SUPERMOON });
     if (f.distance > MICROMOON_KM)
       tags.push({ id: "micro", label: "Micromoon", text: MICROMOON });
+    f.eclipse = Eclipses.atFullMoon(f.jd);
+    if (f.eclipse) {
+      const ec = LUNAR_ECLIPSES[f.eclipse.type];
+      tags.unshift({ id: "eclipse", label: ec.label, text: ec.text });
+    }
     f.name = info.name;
     f.nameText = info.text;
     f.tags = tags;
@@ -238,6 +243,28 @@ const tagsHtml = (tags) =>
     )
     .join("");
 
+const fmtMinutes = (m) => {
+  const h = Math.floor(m / 60);
+  const mm = Math.round(m % 60);
+  return h ? `${h} h ${pad(mm)} min` : `${mm} min`;
+};
+
+// a lunar eclipse: its time, magnitude and how long it lasts
+const eclipseHtml = (e) => {
+  const ec = LUNAR_ECLIPSES[e.type];
+  const { pen, par, tot } = e.semi;
+  const lasts = [
+    tot ? `totality ${fmtMinutes(2 * tot)}` : "",
+    par ? `${tot ? "partial phases" : "partial phase"} ${fmtMinutes(2 * par)}` : "",
+    `${par ? "whole eclipse" : "eclipse"} ${fmtMinutes(2 * pen)}`,
+  ].filter(Boolean);
+  return `<div class="eclipse-info">
+    <p><b>${ec.label}</b> · maximum at <b>${fmtTime(e.date)}</b>, magnitude ${e.magnitude.toFixed(2)}${e.type === "penumbral" ? " (penumbral)" : ""}</p>
+    <p class="muted">${lasts.join(" · ")}. Visible wherever the Moon is up.</p>
+    <p>${ec.text} <a href="https://evoluteur.github.io/eclipse-calendar/?year=${e.date.getFullYear()}">See it in the Eclipse Calendar</a>.</p>
+  </div>`;
+};
+
 const countdown = (date, from) => {
   const days = (date - from) / DAY;
   if (days < 1) {
@@ -300,6 +327,7 @@ const moonPanelHtml = (date, isNow) => {
       <h3 class="phase-name">${phase.name}</h3>
       <div class="kw">${phase.keywords.join(" · ")}</div>
       ${exactHtml}
+      ${exact && exact.eclipse ? eclipseHtml(exact.eclipse) : ""}
       <dl class="stats">
         <div><dt>Illumination</dt><dd>${fmtPct(moon.illumination)}</dd></div>
         <div><dt>Moon age</dt><dd>${age !== null ? age.toFixed(1) + " days" : "-"}</dd></div>
@@ -369,13 +397,16 @@ const renderMonth = () => {
     const ing = ingressByDay[dayKey(date)];
     const cls = ["day"];
     if (p) cls.push("principal", "p-" + p.type);
+    const ecl = p && p.eclipse;
+    if (ecl) cls.push("eclipse", "eclipse-" + ecl.type);
     if (sameDay(date, today)) cls.push("today");
-    const label = `${fmtLongDate(date)}: ${PHASES[idx].name}, ${fmtPct(moon.illumination)}`;
+    const label = `${fmtLongDate(date)}: ${PHASES[idx].name}, ${fmtPct(moon.illumination)}${ecl ? `, ${LUNAR_ECLIPSES[ecl.type].label.toLowerCase()}` : ""}`;
     h += `<button class="${cls.join(" ")}" data-day="${d}" aria-label="${label}">
       <span class="dnum">${d}</span>
       <span class="dsign" title="Moon in ${SIGNS[moon.sign].name}">${SIGNS[moon.sign].glyph}</span>
       ${moonSvg(moon.illumination, moon.waxing, 46)}
       <span class="dphase">${p ? `${PHASES[idx].short} <b>${fmtTime(p.date)}</b>` : fmtPct(moon.illumination)}</span>
+      ${ecl ? `<span class="decl" title="${LUNAR_ECLIPSES[ecl.type].label}, maximum at ${fmtTime(ecl.date)}">${ecl.type === "penumbral" ? "Penumbral" : ecl.type === "total" ? "Total" : "Partial"} eclipse</span>` : ""}
       ${ing ? `<span class="ding" title="Moon enters ${SIGNS[ing.sign].name} at ${fmtTime(ing.date)}">&rarr;${SIGNS[ing.sign].glyph} ${fmtTime(ing.date)}</span>` : ""}
     </button>`;
   }
@@ -442,8 +473,10 @@ const renderYear = () => {
       const idx = phaseIndexFor(moon, p);
       const cls = ["yc"];
       if (p) cls.push("principal", "p-" + p.type);
+      const ecl = p && p.eclipse;
+      if (ecl) cls.push("eclipse", "eclipse-" + ecl.type);
       if (sameDay(date, today)) cls.push("today");
-      h += `<button class="${cls.join(" ")}" data-m="${m}" data-d="${d}" title="${fmtDate(date)}: ${PHASES[idx].name} (${fmtPct(moon.illumination)})">${moonSvg(moon.illumination, moon.waxing, 20, { detail: false })}</button>`;
+      h += `<button class="${cls.join(" ")}" data-m="${m}" data-d="${d}" title="${fmtDate(date)}: ${PHASES[idx].name} (${fmtPct(moon.illumination)})${ecl ? ` · ${LUNAR_ECLIPSES[ecl.type].label}` : ""}">${moonSvg(moon.illumination, moon.waxing, 20, { detail: false })}</button>`;
     }
   }
   h += "</div>";

@@ -271,6 +271,10 @@ html[data-theme="light"] .big-moon .moon {
   background: #3b4558;
   color: white;
 }
+.tag-eclipse {
+  background: #c8553d;
+  color: white;
+}
 
 /* ------------------------------------------------ toolbar */
 
@@ -410,6 +414,36 @@ html[data-theme="light"] .big-moon .moon {
 }
 .day.p-new {
   border-style: dashed !important;
+}
+/* lunar eclipses */
+.day.eclipse {
+  border-color: #c8553d !important;
+  box-shadow: 0 0 14px -3px #c8553d;
+}
+.day.eclipse-penumbral {
+  border-style: dotted !important;
+}
+.decl {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #e07a5f;
+  white-space: nowrap;
+}
+.yc.eclipse {
+  border-color: #c8553d !important;
+  box-shadow: inset 0 0 0 1px #c8553d;
+}
+.yc.eclipse-penumbral {
+  border-style: dotted !important;
+}
+.eclipse-info {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-left: 3px solid #c8553d;
+  font-size: 0.92rem;
+}
+.eclipse-info p {
+  margin: 2px 0;
 }
 .day.today .dnum {
   background: var(--accent);
@@ -716,6 +750,12 @@ html[data-theme="evol-blue"] .card-detail {
   }
   .ding {
     display: none;
+  }
+  .decl {
+    font-size: 0.6rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
   }
   .dow {
     font-size: 0.7rem;
